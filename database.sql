@@ -1,15 +1,24 @@
+-- Create Table for table `Roles`
 CREATE TABLE IF NOT EXISTS `Roles` (
-  `Id` int NOT NULL AUTO_INCREMENT,
+  `Id` int NOT NULL,
   `RoleName` varchar(30) NOT NULL,
-  `Description` varchar(256),
-  PRIMARY KEY (`id`),
-  UNIQUE (`RoleName`)
+  `Description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `RoleName` (`RoleName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- ALTER TABLE `Roles`
---   ADD PRIMARY KEY (`id`),
---   ADD UNIQUE (`RoleName`);
+-- Dumping data for table `Roles`
+INSERT INTO `Roles` (`Id`, `RoleName`, `Description`) VALUES
+(1, 'JuniorStaff', '- Go through application process at Registration of Persons Offices\r\n- Handle applications at office\r\n- Issue new HKID card to the corresponding applicants'),
+(2, 'ApprovingStaff', '- Approve applications of special cases'),
+(3, 'SystemAdmin', '- Deploy security controls\r\n- Configure security setting\r\n- Perform backup\r\n- Create and manage accounts'),
+(4, 'EndUser', NULL);
 
+-- AUTO_INCREMENT for table `Roles`
+ALTER TABLE `Roles`
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+-- Create Table for table `Users`
 CREATE TABLE IF NOT EXISTS `Users` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `Username` varchar(30) NOT NULL,
@@ -24,34 +33,50 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `PlaceOfBirth` varchar(100) NOT NULL,
   `Occupation` varchar(100) NOT NULL,
   `HKID` varchar(30) NOT NULL,
+  `CreatedAt` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `LastModifedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   UNIQUE (`Username`,`HKID`),
-  FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
+  -- FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- ALTER TABLE `Users`
---   ADD PRIMARY KEY (`id`),
---   ADD UNIQUE (`Username`,`HKID`),
---   ADD FOREIGN KEY (RoleId) REFERENCES Roles(`Id`);
-
+-- Create Table for table `Venues`
 CREATE TABLE IF NOT EXISTS `Venues` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `VenueName` varchar(30) NOT NULL,
-  `VenueAddress` varchar(256),
   PRIMARY KEY (`Id`),
   UNIQUE (`VenueName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table `Venues`
+INSERT INTO `Venues` (`Id`, `VenueName`) VALUES
+(1, 'Hong Kong Island'),
+(2, 'East Kowloon'),
+(3, 'West Kowloon'),
+(4, 'Tsuen Wan'),
+(5, 'Sha Tin'),
+(6, 'Sheung Shui'),
+(7, 'Tuen Mun'),
+(8, 'Yuen Long'),
+(9, 'Tseung Kwan O');
+
+-- AUTO_INCREMENT for table `Venues`
+ALTER TABLE `Venues`
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+-- Create Table for table `Appointments`
 CREATE TABLE IF NOT EXISTS `Appointments` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `UserId` int NOT NULL,
   `VenueId` int NOT NULL,
-  `Date` date NOT NULL,
-  `Time` int NOT NULL,
+  `StartTime` datetime NOT NULL,
+  `EndTime` datetime NOT NULL,
   `Approved` varchar(30) NOT NULL,
   `Notified` varchar(30),
+  `CreatedAt` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `LastModifedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
-  FOREIGN KEY (`UserId`) REFERENCES Users(`Id`),
-  FOREIGN KEY (`VenueId`) REFERENCES Venues(`Id`)
+  -- FOREIGN KEY (`UserId`) REFERENCES Users(`Id`),
+  -- FOREIGN KEY (`VenueId`) REFERENCES Venues(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
