@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `PlaceOfBirth` varchar(100) NOT NULL,
   `Occupation` varchar(100) NOT NULL,
   `HKID` varchar(30) NOT NULL,
-  `CreatedAt` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `LastModifedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
-  UNIQUE (`Username`,`HKID`),
+  UNIQUE (`Username`,`HKID`)
   -- FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `Appointments` (
   `EndTime` datetime NOT NULL,
   `ApprovalStatus` varchar(30) NOT NULL,
   `Notified` varchar(30),
-  `CreatedAt` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `LastModifedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`),
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`)
   -- FOREIGN KEY (`UserId`) REFERENCES Users(`Id`),
   -- FOREIGN KEY (`VenueId`) REFERENCES Venues(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
