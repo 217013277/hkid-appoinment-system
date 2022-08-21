@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `NameChinese` varchar(100) COLLATE utf8_general_ci NOT NULL,
   `gender` varchar(12) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `DateOfBirth` date NOT NULL,
+  `DateOfBirth` datetime NOT NULL,
   `PlaceOfBirth` varchar(100) NOT NULL,
   `Occupation` varchar(100) NOT NULL,
   `HKID` varchar(30) NOT NULL,
