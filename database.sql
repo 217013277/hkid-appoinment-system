@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `Username` varchar(30) NOT NULL,
   `Salt` varchar(128) NOT NULL,
   `Hash` varchar(512) NOT NULL,
+  `Email` varchar(100) NOT NULL,
   `RoleId` int,
   `NameEnglish` varchar(100) NOT NULL,
   `NameChinese` varchar(100) COLLATE utf8_general_ci NOT NULL,
@@ -36,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
-  UNIQUE (`Username`,`HKID`)
+  UNIQUE (`Username`, `Email`, `HKID`)
   -- FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
