@@ -86,7 +86,7 @@ if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid))
 if($allDataCorrect)
 {
     // Search user table to see whether user name is exist
-    $search_sql = $conn->prepare("SELECT hkid FROM Users WHERE Username LIKE ? OR Email LIKE ? OR HKID LIKE ?");
+    $search_sql = $conn->prepare("SELECT username FROM Users WHERE Username LIKE ? OR Email LIKE ? OR HKID LIKE ?");
     $search_sql->bind_param("sss", $username, $email, $hkid);
     $search_sql->execute();
     $search_sql->store_result();
