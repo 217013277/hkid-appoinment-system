@@ -82,8 +82,9 @@ CREATE TABLE IF NOT EXISTS `Appointments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Create Table for table `ip`
-CREATE TABLE IF NOT EXISTS `ip` (
+CREATE TABLE IF NOT EXISTS `AuthLog` (
   `address` char(16) COLLATE utf8mb4_bin NOT NULL,
+  `username` varchar(30),
   `action` varchar(16) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
