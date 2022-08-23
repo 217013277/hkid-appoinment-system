@@ -16,7 +16,7 @@ function SplitTime($StartTime, $EndTime, $Duration="60"){
 }
 
 //Calling the function
-$Data = SplitTime("2018-05-12 12:15", "2018-05-12 15:30", "60");
+$Data = SplitTime("2018-05-12 12:15", "2018-05-12 15:30", "30");
 echo "<pre>";
 print_r($Data);
 echo "<pre>";
@@ -49,20 +49,8 @@ if ($conn->connect_error)
     die("Connection failed: ". $conn->connect_error);
 } 
 
-// $search_sql = $conn->prepare("SELECT `Time` FROM `Appointments`");
-// // $result = mysqli_query($db, $search_sql);
-// $search_sql->execute();
-// $search_sql->store_result();
-
 $query = "SELECT `Time` FROM `Appointments`";
 $result = $conn->query($query);
-
-
-// $row = $result->fetch_array(MYSQLI_ASSOC);
-// while($row = $result->fetch_array(MYSQLI_ASSOC))
-// {
-//     printf("%s (%s)\n", $row['Time']);
-// }
 
 $items = array();
 while($row = mysqli_fetch_array($result, MYSQLI_NUM))
@@ -72,29 +60,19 @@ while($row = mysqli_fetch_array($result, MYSQLI_NUM))
 
 }
 
+mysqli_close($conn);
+
 echo "<pre>";
 print_r($items);
 echo "<pre>";
 
-// $search_sql->bind_result($time_db);
-// $search_sql->fetch();
 
-// // $search_sql->fetch_assoc();
-
-// // while ($row = mysql_fetch_assoc($search_sql)) {
-// //     echo $row["Time"];
-// // }
-
-// echo "<p>$time_db</p>";
-
-// while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-// {
-//     echo ($row['Time']);  // The number
-//     // echo ($row[1]);  // The customer
-// }
-
-echo "abc";
-
-mysqli_close($conn);
+if (in_array("2022-08-23 08:16:14", $items)) {
+    echo "Got Irix";
+}
+else
+{
+    echo "no Irix";
+}
 
 ?>
