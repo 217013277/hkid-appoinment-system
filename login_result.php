@@ -7,8 +7,6 @@
 
 include "config.php";
 
-echo "$host, $dbusername, $dbpassword, $dbname";
-
 // Create connection
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
@@ -31,7 +29,7 @@ $insert_log_sql->bind_param("sss", $ip, $username, $action);
 $insert_log_sql->execute();
 
 // check login attempt
-$search_log_sql = $conn->prepare("SELECT COUNT(*) FROM `AuthLog` WHERE `username`=? AND `timestamp` > (now() - interval 5 minute)");
+$search_log_sql = $conn->prepare("SELECT COUNT(*) FROM `AuthLog` WHERE `username`=? AND `action`= '$action' AND `timestamp` > (now() - interval 5 minute)");
 $search_log_sql->bind_param("s", $username);
 $search_log_sql->execute();
 $search_log_sql->store_result();
@@ -51,28 +49,28 @@ else
     $search_sql->store_result();
 
     // If login name can be found in table "userhash"
-    if($search_sql->num_rows > 0) 
+    if($search_sql->num_rows < 1) 
     {       
-    // Write a statement to generate a hash by using SHA512 algorithm and store it into variable $pwdhash (salt + password)
-    $search_sql->bind_result($username_db, $salt_db, $hash_db);
-    $search_sql-> fetch();
-
-    $passwordHash = hash("sha512", $salt_db . $password);
-
-    /* Write a statement to compare the string content of $pwdhash and the hash value retrieved from database is equal (hint: use build in function strcmp) */
-
-    if(strcmp($hash_db, $passwordHash) == 0)
-    {
-    echo "<h2>Authentication success!</h2>";
+        echo "<h2>Username not exist, authentication failed</h2>";
     }
     else
     {
-        echo "<h2>The password is wrong, authentication failed</h2>";
-    }
-    }
-    else
-    {
-    echo "<h2>Username not exist, authentication failed</h2>";
+        // Write a statement to generate a hash by using SHA512 algorithm and store it into variable $pwdhash (salt + password)
+        $search_sql->bind_result($username_db, $salt_db, $hash_db);
+        $search_sql-> fetch();
+
+        $passwordHash = hash("sha512", $salt_db . $password);
+
+        /* Write a statement to compare the string content of $pwdhash and the hash value retrieved from database is equal (hint: use build in function strcmp) */
+
+        if(strcmp($hash_db, $passwordHash) != 0)
+        {
+            echo "<h2>The password is wrong, authentication failed</h2>";
+        }
+        else
+        {
+            echo "<h2>Authentication success!</h2>";
+        }
     }
 }
 

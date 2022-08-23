@@ -5,8 +5,10 @@
 <body>
 <?php
 
+include "config.php";
+
 // Create connection
-$conn = new mysqli("localhost", "root", "mysql", "test");
+$conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
 // Check connection
 if ($conn->connect_error) 
