@@ -5,8 +5,12 @@
 <body>
 <?php
 
+include "config.php";
+
+echo "$host, $dbusername, $dbpassword, $dbname";
+
 // Create connection
-$conn = new mysqli("localhost", "root", "mysql", "test");
+$conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
 // Check connection
 if ($conn->connect_error) 
@@ -68,7 +72,7 @@ else
     }
     else
     {
-    echo "<h2>User name not exist, authentication failed</h2>";
+    echo "<h2>Username not exist, authentication failed</h2>";
     }
 }
 
