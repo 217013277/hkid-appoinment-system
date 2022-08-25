@@ -87,11 +87,14 @@ if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid))
   
 if($allDataCorrect)
 {
+    echo "<p>checking duplicate information</p>";
     // Search user table to see whether user name is exist
-    $search_sql = $conn->prepare("SELECT username FROM Users WHERE Username LIKE ? OR Email LIKE ? OR HKID LIKE ?");
+    $search_sql = $conn->prepare("SELECT * FROM Users WHERE Username LIKE ? OR Email LIKE ? OR HKID LIKE ?");
     $search_sql->bind_param("sss", $username, $email, $hkid);
     $search_sql->execute();
     $search_sql->store_result();
+
+    echo "<p>checking duplicate information step2</p>";
     
     // If login name can be found in table "user", forbid user register process
     if($search_sql->num_rows > 0) 
@@ -100,9 +103,10 @@ if($allDataCorrect)
     }
     else
     {
-        $search_sql->bind_result($hkid_db);
-        $search_sql-> fetch();
+        // $search_sql->bind_result($hkid_db);
+        // $search_sql-> fetch();
 
+        echo "<p>insert register information</p>";
         $salt = generateSalt(16);
     
         $hash = hash("sha512", $salt . $password);

@@ -28,10 +28,10 @@ $enddate = date('Y-m-d h:i:s', strtotime($stop_date . ' +90 day'));
 
 $Data = SplitDate($tomorrow, $enddate, "Y-m-d");
 
-$curtime = date('Y-m-d H:i:s',strtotime('today 8am'));
-$curtime2 = date('Y-m-d H:i:s',strtotime('today 8pm'));
+$startTime = date('Y-m-d H:i:s',strtotime('today 8am'));
+$endTime = date('Y-m-d H:i:s',strtotime('today 8pm'));
 
-$Time = SplitDate($curtime, $curtime2, "H:i", "30");
+$Time = SplitDate($startTime, $endTime, "H:i", "30");
 // echo "<pre>";
 // print_r($Data);
 // echo "<pre>";
