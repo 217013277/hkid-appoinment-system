@@ -82,6 +82,7 @@ else
         {
             date_default_timezone_set('Asia/Hong_Kong');
             ?>
+            
             <h2>Authentication success!</h2>
 
             <form action="register_result.php" method="post">
