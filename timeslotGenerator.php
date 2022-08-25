@@ -1,6 +1,12 @@
+<html>
+<head>
+<title>Register Result</title>
+</head>
+<body>
+
 <?php
 
-function SplitTime($StartTime, $EndTime, $Duration="60"){
+function SplitDate($StartTime, $EndTime, $Format, $Duration="1440"){
     $ReturnArray = array ();// Define output
     $StartTime    = strtotime ($StartTime); //Get Timestamp
     $EndTime      = strtotime ($EndTime); //Get Timestamp
@@ -9,70 +15,89 @@ function SplitTime($StartTime, $EndTime, $Duration="60"){
 
     while ($StartTime <= $EndTime) //Run loop
     {
-        $ReturnArray[] = date ("Y-m-d H:i", $StartTime);
+        $ReturnArray[] = date ($Format, $StartTime);
+        // $StartTime += $AddMins; //Endtime check
         $StartTime += $AddMins; //Endtime check
     }
-    return $ReturnArray;
+    return $ReturnArray;   
 }
 
-//Calling the function
-$Data = SplitTime("2018-05-12 12:15", "2018-05-12 15:30", "30");
-echo "<pre>";
-print_r($Data);
-echo "<pre>";
+date_default_timezone_set('Asia/Hong_Kong');
+$tomorrow = date('Y-m-d h:i:s', strtotime($stop_date . ' +1 day'));
+$enddate = date('Y-m-d h:i:s', strtotime($stop_date . ' +90 day'));
+
+$Data = SplitDate($tomorrow, $enddate, "Y-m-d");
+
+$curtime = date('Y-m-d H:i:s',strtotime('today 8am'));
+$curtime2 = date('Y-m-d H:i:s',strtotime('today 8pm'));
+
+$Time = SplitDate($curtime, $curtime2, "H:i", "30");
+// echo "<pre>";
+// print_r($Data);
+// echo "<pre>";
 
 ?>
 
-<form>
-<select name="country">
+<form action="register_result.php" method="post">
+Date: <select name="date">
 <option value=""></option>
 <?php
-
 foreach($Data as $key => $value)
 {
-    
     echo '<option value="'.$key.'">'.$value.'</option>';
 }
 ?>
 </select>
+Time: <select name="time">
+<option value=""></option>
+<?php
+foreach($Time as $key => $value)
+{
+    echo '<option value="'.$key.'">'.$value.'</option>';
+}
+?>
+</select>
+<input name="submit" type="submit" value="submit">
 </form>
 
 <?php
-include "config.php";
+// include "config.php";
 
-// Create connection
-$conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
+// // Create connection
+// $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
-// Check connection
-if ($conn->connect_error) 
-{
-    die("Connection failed: ". $conn->connect_error);
-} 
+// // Check connection
+// if ($conn->connect_error) 
+// {
+//     die("Connection failed: ". $conn->connect_error);
+// } 
 
-$query = "SELECT `Time` FROM `Appointments`";
-$result = $conn->query($query);
+// $query = "SELECT `Time` FROM `Appointments`";
+// $result = $conn->query($query);
 
-$items = array();
-while($row = mysqli_fetch_array($result, MYSQLI_NUM))
-{
-    echo ($row[0]."\n");  // The number
-    $items[] = $row[0];
+// $items = array();
+// while($row = mysqli_fetch_array($result, MYSQLI_NUM))
+// {
+//     echo ($row[0]."\n");  // The number
+//     $items[] = $row[0];
 
-}
+// }
 
-mysqli_close($conn);
+// mysqli_close($conn);
 
-echo "<pre>";
-print_r($items);
-echo "<pre>";
+// echo "<pre>";
+// print_r($items);
+// echo "<pre>";
 
 
-if (in_array("2022-08-23 08:16:14", $items)) {
-    echo "Got Irix";
-}
-else
-{
-    echo "no Irix";
-}
-
+// if (in_array("2022-08-23 08:16:14", $items)) {
+//     echo "Got Irix";
+// }
+// else
+// {
+//     echo "no Irix";
+// }
 ?>
+
+</body>
+</html>
