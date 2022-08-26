@@ -48,15 +48,14 @@ ALTER TABLE `Venues`
 CREATE TABLE IF NOT EXISTS `Appointments` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `UserId` int NOT NULL,
-  `VenueId` int NOT NULL,
-  `Time` datetime NOT NULL,
+  `Location` int NOT NULL,
+  `DateTime` datetime NOT NULL,
   `ApprovalStatus` varchar(30) NOT NULL,
   `Notified` varchar(30),
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
   -- FOREIGN KEY (`UserId`) REFERENCES Users(`Id`),
-  -- FOREIGN KEY (`VenueId`) REFERENCES Venues(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Create Table for table `ip`
