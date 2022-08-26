@@ -5,9 +5,8 @@
 <body>
 <form action="register_result.php" method="post">
 <h1>Register</h1>
-Username: <input name="username" type="text" size="30" maxlength="100"> 6-12 characters<br><br>
-Password: <input name="password" type="text" size="30" maxlength="100"><br>At least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol<br><br>
 Email: <input name="email" type="text" size="30" maxlength="100"><br><br>
+Password: <input name="password" type="text" size="30" maxlength="100"><br>At least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol<br><br>
 English Name: <input name="engName" type="text" size="30" maxlength="100"> At least 2 English characters start with capital letter<br><br>
 Chinese Name: <input name="chiName" type="text" size="30" maxlength="100"> At least 2 Chinese characters<br><br>
 Gender: <input name="gender" type="text" size="30" maxlength="12"> Male or Female<br><br>

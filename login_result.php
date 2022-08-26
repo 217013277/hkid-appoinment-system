@@ -18,19 +18,19 @@ if ($conn->connect_error)
 
 /* Get user input which name is "id" and "pwd" 
 (assume the id and pwd has correct format) */
-$username = $_POST["username"]; 
+$email = $_POST["email"]; 
 $password = $_POST["password"]; 
 
 // save login attempt to prevent brute force attack
 $ip = $_SERVER["REMOTE_ADDR"];
 $action = "login";
-$insert_log_sql = $conn->prepare("INSERT INTO `AuthLog` (`address`,`username`,`action`,`timestamp`)VALUES (?,?,?,now())");
-$insert_log_sql->bind_param("sss", $ip, $username, $action);
+$insert_log_sql = $conn->prepare("INSERT INTO `AuthLog` (`address`,`email`,`action`,`timestamp`)VALUES (?,?,?,now())");
+$insert_log_sql->bind_param("sss", $ip, $email, $action);
 $insert_log_sql->execute();
 
 // check login attempt
-$search_log_sql = $conn->prepare("SELECT COUNT(*) FROM `AuthLog` WHERE `username`=? AND `action`= '$action' AND `timestamp` > (now() - interval 5 minute)");
-$search_log_sql->bind_param("s", $username);
+$search_log_sql = $conn->prepare("SELECT COUNT(*) FROM `AuthLog` WHERE `email`=? AND `action`= '$action' AND `timestamp` > (now() - interval 5 minute)");
+$search_log_sql->bind_param("s", $email);
 $search_log_sql->execute();
 $search_log_sql->store_result();
 $search_log_sql->bind_result($countLog);
@@ -43,15 +43,15 @@ if($countLog > 10)
 else
 {
     // Write prepare statements to retrieve the columns salt and hash with the corresponding user  
-    $search_sql = $conn->prepare("SELECT `salt`, `hash` FROM Users WHERE username=?");
-    $search_sql->bind_param("s", $username);
+    $search_sql = $conn->prepare("SELECT `salt`, `hash` FROM Users WHERE email=?");
+    $search_sql->bind_param("s", $email);
     $search_sql->execute();
     $search_sql->store_result();
 
     // If login name can be found in table "userhash"
     if($search_sql->num_rows < 1) 
     {       
-        echo "<h2>Username not exist, authentication failed</h2>";
+        echo "<h2>Email not exist, authentication failed</h2>";
     }
     else
     {

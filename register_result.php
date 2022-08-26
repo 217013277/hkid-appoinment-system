@@ -17,9 +17,8 @@ if ($conn->connect_error)
 } 
 
 // Get user input from the form submitted before
-$username = $_POST["username"]; 
-$password = $_POST["password"];
 $email = $_POST["email"];
+$password = $_POST["password"];
 $engName = $_POST["engName"];
 $chiName = $_POST["chiName"];
 $gender = $_POST["gender"];
@@ -29,29 +28,20 @@ $placeOfBirth = $_POST["placeOfBirth"];
 $occupation = $_POST["occupation"];
 $hkid = $_POST["hkid"];
 
-// Set role id for enduser
-$roleId = 123;
-
 // Set a flag to assume all user input follow the format
 $allDataCorrect = true;
 
 // Check all data whether follow the format
-if(!preg_match("/^[a-zA-Z0-9]{6,12}$/", $username))
+if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email))
 {
     $allDataCorrect = false;
-    $errMsg = $errMsg . "Username should be composed within 6 to 12 alphanumeric characters <br><br>"; 
+    $errMsg = $errMsg . "Email is invalid<br><br>"; 
 }
 
 if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&-_]{8,}$/", $password))
 {
     $allDataCorrect = false;
     $errMsg = $errMsg . "Password should be composed with at least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol <br><br>"; 
-}
-
-if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email))
-{
-    $allDataCorrect = false;
-    $errMsg = $errMsg . "Email is invalid<br><br>"; 
 }
 
 if(!preg_match("/[A-Z][a-zA-Z]{2,}/", $engName))
@@ -89,8 +79,8 @@ if($allDataCorrect)
 {
     echo "<p>checking duplicate information</p>";
     // Search user table to see whether user name is exist
-    $search_sql = $conn->prepare("SELECT * FROM Users WHERE Username LIKE ? OR Email LIKE ? OR HKID LIKE ?");
-    $search_sql->bind_param("sss", $username, $email, $hkid);
+    $search_sql = $conn->prepare("SELECT * FROM Users WHERE Email=? OR HKID LIKE ?");
+    $search_sql->bind_param("ss", $email, $hkid);
     $search_sql->execute();
     $search_sql->store_result();
 
@@ -99,7 +89,7 @@ if($allDataCorrect)
     // If login name can be found in table "user", forbid user register process
     if($search_sql->num_rows > 0) 
     {
-        echo "<h2>The username, email or hkid are registered by others. Please use other user name</h2>";
+        echo "<h2>The email or hkid are registered by others. Please use other user name</h2>";
     }
     else
     {
@@ -113,8 +103,8 @@ if($allDataCorrect)
 
         $dateOfBirth_dt=date('Y-m-d H:i:s',strtotime($dateOfBirth)); 
 
-        $insert_sql = $conn->prepare("INSERT INTO Users (Username, Salt, Hash, Email, NameEnglish, NameChinese, Gender, Address, DateOfBirth, PlaceOfBirth, Occupation, HKID, RoleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $insert_sql->bind_param("ssssssssssssi", $username, $salt, $hash, $email, $engName, $chiName, $gender, $address, $dateOfBirth_dt, $placeOfBirth, $occupation, $hkid, $roleId);
+        $insert_sql = $conn->prepare("INSERT INTO Users (Email, Salt, Hash, NameEnglish, NameChinese, Gender, Address, DateOfBirth, PlaceOfBirth, Occupation, HKID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $insert_sql->bind_param("sssssssssss", $email, $salt, $hash, $engName, $chiName, $gender, $address, $dateOfBirth_dt, $placeOfBirth, $occupation, $hkid);
         $insert_sql->execute();
 
         echo "<h2>Registration Success!!</h2>";
