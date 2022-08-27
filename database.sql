@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `PlaceOfBirth` varchar(100) NOT NULL,
   `Occupation` varchar(100) NOT NULL,
   `HKID` varchar(30) NOT NULL,
+  `Verified` tinyint(1) NOT NULL DEFAULT 0,
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
@@ -41,3 +42,11 @@ CREATE TABLE IF NOT EXISTS `AuthLog` (
   `action` varchar(16) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
+
+-- Create Table for table `otp`
+CREATE TABLE IF NOT EXISTS `OTP` (
+  `email` varchar(100),
+  `otp` varchar(16) NOT NULL,
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
+
