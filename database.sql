@@ -20,35 +20,11 @@ CREATE TABLE IF NOT EXISTS `Users` (
   -- FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Create Table for table `Venues`
-CREATE TABLE IF NOT EXISTS `Venues` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `VenueName` varchar(30) NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE (`VenueName`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table `Venues`
-INSERT INTO `Venues` (`Id`, `VenueName`) VALUES
-(1, 'Hong Kong Island'),
-(2, 'East Kowloon'),
-(3, 'West Kowloon'),
-(4, 'Tsuen Wan'),
-(5, 'Sha Tin'),
-(6, 'Sheung Shui'),
-(7, 'Tuen Mun'),
-(8, 'Yuen Long'),
-(9, 'Tseung Kwan O');
-
--- AUTO_INCREMENT for table `Venues`
-ALTER TABLE `Venues`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 -- Create Table for table `Appointments`
 CREATE TABLE IF NOT EXISTS `Appointments` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `UserId` int NOT NULL,
-  `Location` int NOT NULL,
+  `Location` varchar(30) NOT NULL,
   `DateTime` datetime NOT NULL,
   `ApprovalStatus` varchar(30) NOT NULL,
   `Notified` varchar(30),

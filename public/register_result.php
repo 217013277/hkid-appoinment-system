@@ -1,3 +1,11 @@
+<?php
+//Prevent Direct URL Access to PHP Form Files
+if ( $_SERVER['REQUEST_METHOD']=='GET' && realpath(__FILE__) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
+header( 'HTTP/1.0 403 Forbidden', TRUE, 403 );
+die ("<h2>Access Denied!</h2> This file is protected and not available to public.");
+}
+?>
+
 <html>
 <head>
 <title>Register Result</title>
@@ -5,7 +13,34 @@
 <body>
 <?php
 
-include "config.php";
+session_start();
+$captchaStatus = false;
+$status = '';
+
+// Validation: Checking entered captcha code with the generated captcha code
+if(strcasecmp($_SESSION['captcha'], $_POST["captcha"]) != 0){
+    // Note: the captcha code is compared case insensitively.
+    // if you want case sensitive match, check above with strcmp()
+    $captchaStatus = false;
+    $status = "<p style='color:#FFFFFF; font-size:20px'>
+    <span style='background-color:#FF0000;'>Entered captcha code does not match! 
+    Kindly try again.</span></p>";
+
+}else{
+    $captchaStatus = true;
+    $status = "<p style='color:#FFFFFF; font-size:20px'>
+    <span style='background-color:#46ab4a;'>Your captcha code is match.</span>
+    </p>";	
+    }
+
+    $_SESSION['captcha'] = "";
+
+if (!$captchaStatus)
+{
+    die($status);
+}
+
+include "../config.php";
 
 // Create connection
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
@@ -75,41 +110,40 @@ if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid))
     $errMsg = $errMsg . "Please input valid hkid e.g. A123456(7)<br><br>"; 
 }
   
-if($allDataCorrect)
+if(!$allDataCorrect)
 {
-    // Search user table to see whether user name is exist
-    $search_sql = $conn->prepare("SELECT * FROM Users WHERE Email=? OR HKID LIKE ?");
-    $search_sql->bind_param("ss", $email, $hkid);
-    $search_sql->execute();
-    $search_sql->store_result();
-    
-    // If login name can be found in table "user", forbid user register process
-    if($search_sql->num_rows > 0) 
-    {
-        echo "<h2>The email or hkid are registered by others. Please use other user name</h2>";
-    }
-    else
-    {
-        // $search_sql->bind_result($hkid_db);
-        // $search_sql-> fetch();
+    die("<h3> $errMsg </h3>");
+}
 
-        $salt = generateSalt(16);
-    
-        $hash = hash("sha512", $salt . $password);
+// Search user table to see whether user name is exist
+$search_sql = $conn->prepare("SELECT * FROM Users WHERE Email=? OR HKID LIKE ?");
+$search_sql->bind_param("ss", $email, $hkid);
+$search_sql->execute();
+$search_sql->store_result();
 
-        $dateOfBirth_dt=date('Y-m-d H:i:s',strtotime($dateOfBirth)); 
-
-        $insert_sql = $conn->prepare("INSERT INTO Users (Email, Salt, Hash, NameEnglish, NameChinese, Gender, Address, DateOfBirth, PlaceOfBirth, Occupation, HKID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $insert_sql->bind_param("sssssssssss", $email, $salt, $hash, $engName, $chiName, $gender, $address, $dateOfBirth_dt, $placeOfBirth, $occupation, $hkid);
-        $insert_sql->execute();
-
-        echo "<h2>Registration Success!!</h2>";
-    }
+// If login name can be found in table "user", forbid user register process
+if($search_sql->num_rows > 0) 
+{
+    echo "<h2>The email or hkid are registered by others. Please use other user name</h2>";
 }
 else
 {
-    echo "<h3> $errMsg </h3>";
+    // $search_sql->bind_result($hkid_db);
+    // $search_sql-> fetch();
+
+    $salt = generateSalt(16);
+
+    $hash = hash("sha512", $salt . $password);
+
+    $dateOfBirth_dt=date('Y-m-d H:i:s',strtotime($dateOfBirth)); 
+
+    $insert_sql = $conn->prepare("INSERT INTO Users (Email, Salt, Hash, NameEnglish, NameChinese, Gender, Address, DateOfBirth, PlaceOfBirth, Occupation, HKID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $insert_sql->bind_param("sssssssssss", $email, $salt, $hash, $engName, $chiName, $gender, $address, $dateOfBirth_dt, $placeOfBirth, $occupation, $hkid);
+    $insert_sql->execute();
+
+    echo "<h2>Registration Success!!</h2>";
 }
+
 // Close connection
 mysqli_close($conn);
 

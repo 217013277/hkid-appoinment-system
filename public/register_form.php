@@ -15,7 +15,24 @@ Address: <input name="address" type="text" size="100" maxlength="100"><br><br>
 Place of Birth: <input name="placeOfBirth" type="text" size="30" maxlength="100"><br><br>
 Occupation: <input name="occupation" type="text" size="30" maxlength="100"><br><br>
 HKID: <input name="hkid" type="text" size="30" maxlength="100"> e.g. A123456(7)<br><br>
+<img src="../captcha/captcha.php?rand=<?php echo rand(); ?>" id='captcha_image'>
+</p>
+Captcha: <input type="text" name="captcha" />
+<p>
+<p>Can't read the image?
+<a href='javascript: refreshCaptcha();'>click here</a>
+to refresh</p>
 <input name="submit" type="submit" value="submit">
 </form>
 </body>
 </html>
+
+<script>
+//Refresh Captcha
+function refreshCaptcha(){
+    var img = document.images['captcha_image'];
+    img.src = img.src.substring(
+		0,img.src.lastIndexOf("?")
+		)+"?rand="+Math.random()*1000;
+}
+</script>
