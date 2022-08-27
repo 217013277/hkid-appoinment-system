@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ilexn/hkid-check-digit": "^5.0"
+    }
+}
