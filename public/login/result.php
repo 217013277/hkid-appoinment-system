@@ -13,7 +13,43 @@ die ("<h2>Access Denied!</h2> This file is protected and not available to public
 <body>
 <?php
 
-include "../config.php";
+session_start(); 
+if(isset($_SESSION['user']))
+{
+    header("Location:../appointment"); 
+}
+
+/* Get user input which name is "id" and "pwd" 
+(assume the id and pwd has correct format) */
+$email = $_POST["email"]; 
+$password = $_POST["password"];
+
+if (!$email && !$password) {
+    die("<h2>Please input email and password</h2>");
+}
+
+ // Set a flag to assume all user input follow the format
+$allDataCorrect = true;
+
+// Check all data whether follow the format
+if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email))
+{
+    $allDataCorrect = false;
+    $errMsg = $errMsg . "Email is invalid<br><br>"; 
+}
+
+if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&-_]{8,}$/", $password))
+{
+    $allDataCorrect = false;
+    $errMsg = $errMsg . "Password should be composed with at least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol <br><br>"; 
+}
+
+if(!$allDataCorrect)
+{
+    die("<h3> $errMsg </h3>");
+}
+
+include "../../config.php";
 
 // Create connection
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
@@ -22,18 +58,6 @@ $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: ". $conn->connect_error);
 } 
-
-/* Get user input which name is "id" and "pwd" 
-(assume the id and pwd has correct format) */
-$email = $_POST["email"]; 
-$password = $_POST["password"];
-$date = $_POST["date"];
-$time = $_POST["time"];
-$location = $_POST["location"];
-
-if (!$email && !$password) {
-    die("<h2>Please input email and password</h2>");
-}
 
 // save login attempt to prevent brute force attack
 $ip = $_SERVER["REMOTE_ADDR"];
@@ -80,25 +104,22 @@ if(strcmp($hash_db, $passwordHash) != 0) {
     die("<h2>The password is wrong, authentication failed</h2>");
 }
 
+$_SESSION['user'] = $email;
+
 // check if user is verified
 if (!$verified_db) {
     die("<p>Please verified your email first</p>
-    <a href='verify_form.php'>Go to verify page</a>");
+    <a href='../verify'>Go to verify page</a>");
 }
 
-$datetime = $date." ".$time;
-
-$insert_appointment_sql = $conn->prepare("INSERT INTO `Appointments` (`UserId`,`Location`,`DateTime`,`CreatedAt`)VALUES (?,?,?,now())");
-$insert_appointment_sql->bind_param("iss", $userid_db, $location, $datetime);
-$insert_appointment_sql->execute();
-
-echo "<h2>Appointment success!</h2>";
-echo "<p>$date $time - $location</p>";
+echo "<h2>login success!</h2>";
 
 // Close connection
 mysqli_close($conn);
 
 ?>
+
+<a href="../appointment">go to appointment page</a>
 </body>
 </html>
 

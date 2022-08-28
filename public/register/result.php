@@ -36,10 +36,10 @@ if(strcasecmp($_SESSION['captcha'], $_POST["captcha"]) != 0){
 
 if (!$captchaStatus)
 {
-    die($status);
+	die($status);
 }
 
-include "../config.php";
+include "../../config.php";
 
 // Create connection
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
@@ -171,7 +171,7 @@ function generateSalt($length)
 
 function mailTo($receiver, $subject, $content, $success, $fail){
 
-    include "../config.php";
+    include "../../config.php";
 
 	#
 	# Based on PHPMailer v6.0.5
@@ -229,10 +229,7 @@ function mailTo($receiver, $subject, $content, $success, $fail){
 }
 ?>
 
-<a href="register_form.php">Go back to register page</a>
-<br><br>
-<a href="verify_form.php">Go to verify page</a>
-<br><br>
-<a href="appointment_form.php">Go to appointment page</a>
+<a href="../login">Go to login page</a>
+
 </body>
 </html>

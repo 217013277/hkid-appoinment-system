@@ -1,7 +1,15 @@
 <?php
+session_start(); 
+if(!isset($_SESSION['user']))
+{
+    header("Location:../login"); 
+}
+?>
+
+<?php
     date_default_timezone_set('Asia/Hong_Kong');
-    $tomorrow = date('Y-m-d h:i:s', strtotime(' +1 day'));
-    $enddate = date('Y-m-d h:i:s', strtotime(' +90 day'));
+    $tomorrow = date('Y-m-d H:i:s', strtotime(' +1 day'));
+    $enddate = date('Y-m-d H:i:s', strtotime(' +90 day'));
     $Data = SplitDate($tomorrow, $enddate, "Y-m-d");
 
     $startTime = date('Y-m-d H:i:s',strtotime('today 8am'));
@@ -14,10 +22,8 @@
 <title>Appointment Form</title>
 </head>
 <body>
-<form action="appointment_result.php" method="post">
+<form action="result.php" method="post">
 <h1>appointment</h1>
-Email: <input name="email" type="text" size="30" maxlength="100"><br><br>
-Password: <input name="password" type="text" size="30" maxlength="100"><br><br>
 Date: <select name="date">
     <?php
     foreach($Data as $key => $value)
@@ -48,6 +54,7 @@ Location: <select name="location">
 
 <input name="submit" type="submit" value="submit">
 </form>
+<a href="../logout">logout</a>
 </body>
 </html>
 

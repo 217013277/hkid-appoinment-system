@@ -30,21 +30,18 @@ $otp = $_POST["otp"];
 $allDataCorrect = true;
 
 // Check all data whether follow the format
-// if(!preg_match("/[a-zA-Z0-9_]{16}/", $otp))
-// {
-//     $allDataCorrect = false;
-//     $errMsg = $errMsg . "OTP format is invalid<br><br>"; 
-// }
+if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email))
+{
+    $allDataCorrect = false;
+    $errMsg = $errMsg . "Email is invalid<br><br>"; 
+}
 
 if(!$allDataCorrect) {
     die("<h3> $errMsg </h3>");
 }
 
-date_default_timezone_set('Asia/Hong_Kong');
-$expiryTime = date('Y-m-d h:i:s', strtotime(' -30 minutes'));
-
 // Search user table to see whether user name is exist
-$search_sql = $conn->prepare("SELECT CreatedAt FROM OTP WHERE email=? AND otp=? AND CreatedAt >= '$expiryTime'");
+$search_sql = $conn->prepare("SELECT CreatedAt FROM OTP WHERE email=? AND otp=? AND Used = 0 ORDER BY CreatedAt DESC LIMIT 1");
 $search_sql->bind_param("ss", $email, $otp);
 $search_sql->execute();
 $search_sql->store_result();
@@ -53,15 +50,26 @@ $search_sql->fetch();
 
 if($search_sql->num_rows < 1) 
 {
-    die("<h2>Your OTP is not correct or expired.</h2>");
+    die("<h2>Your OTP is not correct.</h2>");
+}
+
+date_default_timezone_set('Asia/Hong_Kong');
+$expiryTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+
+if($CreatedAt_db < $expiryTime) {
+    die("<h2>Your OTP is expired.</h2>");
 }
 
 echo "<p>$email is now verified.</p>";
 
-$update_user_sql = $conn->prepare("UPDATE Users SET `Verified` = 1 WHERE `Email` = '$otp_email'");
+// $update_user_sql = $conn->prepare("UPDATE Users SET `Verified` = 1 WHERE `Email` = '$email'");
+// $update_user_sql = $conn->prepare("UPDATE OTP SET `Used` = 1 WHERE `Email` = '$email'");
 $update_user_sql->execute();
 
-echo "<p>Your account is verified. You may now make an appointment.</p>";
+// Close connection
+mysqli_close($conn);
+
+echo "<p>You may now make an appointment.</p>";
 
 ?>
 

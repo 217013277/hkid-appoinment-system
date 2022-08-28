@@ -23,11 +23,11 @@ CREATE TABLE IF NOT EXISTS `Users` (
 -- Create Table for table `Appointments`
 CREATE TABLE IF NOT EXISTS `Appointments` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int NOT NULL,
+  `User` varchar(100) NOT NULL,
   `Location` varchar(30) NOT NULL,
   `DateTime` datetime NOT NULL,
-  `ApprovalStatus` varchar(30) NOT NULL,
-  `Notified` varchar(30),
+  `Approved` tinyint(1) NOT NULL DEFAULT 0,
+  `Notified` tinyint(1) NOT NULL DEFAULT 0,
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
@@ -36,18 +36,22 @@ CREATE TABLE IF NOT EXISTS `Appointments` (
 
 -- Create Table for table `ip`
 CREATE TABLE IF NOT EXISTS `AuthLog` (
+  `Id` int NOT NULL AUTO_INCREMENT,
   `address` char(16) COLLATE utf8mb4_bin NOT NULL,
   `email` varchar(100),
   `action` varchar(16) NOT NULL,
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
 
 -- Create Table for table `otp`
 CREATE TABLE IF NOT EXISTS `OTP` (
+  `Id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(100),
   `otp` varchar(16) NOT NULL,
   `Used` tinyint(1) NOT NULL DEFAULT 0,
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
 
