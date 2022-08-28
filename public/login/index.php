@@ -2,7 +2,7 @@
 session_start(); 
 if(isset($_SESSION['user']))
 {
-    header("Location:../appointment_form.php"); 
+    header("Location:../appointment"); 
 }
 ?>
 <html>
