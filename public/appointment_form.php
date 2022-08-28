@@ -1,14 +1,12 @@
 <?php
     date_default_timezone_set('Asia/Hong_Kong');
-    $tomorrow = date('Y-m-d h:i:s', strtotime($stop_date . ' +1 day'));
-    $enddate = date('Y-m-d h:i:s', strtotime($stop_date . ' +90 day'));
+    $tomorrow = date('Y-m-d h:i:s', strtotime(' +1 day'));
+    $enddate = date('Y-m-d h:i:s', strtotime(' +90 day'));
     $Data = SplitDate($tomorrow, $enddate, "Y-m-d");
 
     $startTime = date('Y-m-d H:i:s',strtotime('today 8am'));
     $endTime = date('Y-m-d H:i:s',strtotime('today 8pm'));
     $Time = SplitDate($startTime, $endTime, "H:i", "30"); 
-    
-    
 ?>
 
 <html>

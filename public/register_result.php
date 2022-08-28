@@ -142,7 +142,7 @@ $insert_sql->execute();
 echo "<h2>Registration Success!!</h2>";
 
 $otp = strval(rand(10000, 99999));
-$insert_otp_sql = $conn->prepare("INSERT INTO OTPs (Email, otp, CreatedAt) VALUES (?, ?, now())");
+$insert_otp_sql = $conn->prepare("INSERT INTO OTP (Email, otp, CreatedAt) VALUES (?, ?, now())");
 $insert_otp_sql->bind_param("ss", $email, $otp);
 $insert_otp_sql->execute();
 
@@ -152,8 +152,6 @@ mailTo($email,
 "<p>A verift email has been sent to your email address</p>",
 "sent fail"
 );
-
-echo "<p>A verfied email had been sent to you.</p>";
 
 // Close connection
 mysqli_close($conn);
