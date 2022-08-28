@@ -141,18 +141,6 @@ $insert_sql->execute();
 
 echo "<h2>Registration Success!!</h2>";
 
-$otp = strval(rand(10000, 99999));
-$insert_otp_sql = $conn->prepare("INSERT INTO OTP (Email, otp, CreatedAt) VALUES (?, ?, now())");
-$insert_otp_sql->bind_param("ss", $email, $otp);
-$insert_otp_sql->execute();
-
-mailTo($email,
-"OTP of register on HKID Appointment system",
-"OTP: $otp <br>please verified in 30 mins",
-"<p>A verift email has been sent to your email address</p>",
-"sent fail"
-);
-
 // Close connection
 mysqli_close($conn);
 
