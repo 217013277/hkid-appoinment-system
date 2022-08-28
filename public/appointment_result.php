@@ -19,8 +19,7 @@ include "../config.php";
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
 // Check connection
-if ($conn->connect_error) 
-{
+if ($conn->connect_error) {
     die("Connection failed: ". $conn->connect_error);
 } 
 
@@ -57,19 +56,18 @@ if($countLog > 10)
 }
 
 // Write prepare statements to retrieve the columns salt and hash with the corresponding user  
-$search_sql = $conn->prepare("SELECT `Id`, `salt`, `hash` FROM Users WHERE email=?");
+$search_sql = $conn->prepare("SELECT `Id`, `salt`, `hash`, `verified` FROM Users WHERE email=?");
 $search_sql->bind_param("s", $email);
 $search_sql->execute();
 $search_sql->store_result();
 
 // If login name can be found in table "userhash"
-if($search_sql->num_rows < 1) 
-{       
+if($search_sql->num_rows < 1) {       
     die("<h2>Email not exist, authentication failed</h2>");
 }
 
 // Write a statement to generate a hash by using SHA512 algorithm and store it into variable $pwdhash (salt + password)
-$search_sql->bind_result($userid_db, $salt_db, $hash_db);
+$search_sql->bind_result($userid_db, $salt_db, $hash_db, $verified_db);
 $search_sql-> fetch();
 
 $passwordHash = hash("sha512", $salt_db . $password);
@@ -78,9 +76,14 @@ $test = "abc123**";
 $passwordHashTest = hash("sha512", $salt_db . $test);
 
 /* Write a statement to compare the string content of $pwdhash and the hash value retrieved from database is equal (hint: use build in function strcmp) */
-if(strcmp($hash_db, $passwordHash) != 0)
-{
+if(strcmp($hash_db, $passwordHash) != 0) {
     die("<h2>The password is wrong, authentication failed</h2>");
+}
+
+// check if user is verified
+if (!$verified_db) {
+    die("<p>Please verified your email first</p>
+    <a href='verify_form.php'>Go to verify page</a>");
 }
 
 $datetime = $date." ".$time;

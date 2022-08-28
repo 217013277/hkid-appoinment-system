@@ -1,4 +1,3 @@
-
 -- Create Table for table `Users`
 CREATE TABLE IF NOT EXISTS `Users` (
   `Id` int NOT NULL AUTO_INCREMENT,
@@ -47,6 +46,8 @@ CREATE TABLE IF NOT EXISTS `AuthLog` (
 CREATE TABLE IF NOT EXISTS `OTP` (
   `email` varchar(100),
   `otp` varchar(16) NOT NULL,
-  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP
+  `Used` tinyint(1) NOT NULL DEFAULT 0,
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_bin;
 

@@ -58,6 +58,8 @@ echo "<p>verified $otp_email</p>";
 $update_user_sql = $conn->prepare("UPDATE Users SET `Verified` = 1 WHERE `Email` = '$otp_email'");
 $update_user_sql->execute();
 
+echo "<p>Your account is verified. You may now make an appointment.</p>";
+
 ?>
 
 <a href="appointment_form.php">Go to appointment page</a>
