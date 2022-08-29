@@ -51,6 +51,13 @@ if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&-_]{8
     $errMsg = $errMsg . "Password should be composed with at least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol <br><br>"; 
 }
 
+echo $common_password = file_get_contents("../common_password.txt");
+
+if(strripos($common, $password) === TRUE){
+    $allDataCorrect = false;
+    $errMsg = $errMsg . "Password is too common <br><br>"; 
+} 
+
 if(strcmp($password, $confirm) != 0) {
 	$allDataCorrect = false;
     $errMsg = $errMsg . "Confirm password is not match with your password <br><br>"; 
