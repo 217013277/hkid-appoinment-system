@@ -115,14 +115,16 @@ if($search_sql->num_rows > 0) {
     die("<h2>The email or hkid are registered by others. Please use other user name</h2>");
 }
 
-// $search_sql->bind_result($hkid_db);
-// $search_sql-> fetch();
-
 $salt = generateSalt(16);
 
 $hash = hash("sha512", $salt . $password);
 
 $dateOfBirth_dt=date('Y-m-d H:i:s',strtotime($dateOfBirth)); 
+
+$iv = bin2hex(openssl_random_pseudo_bytes(16));
+$cipherhkid = openssl_encrypt($hkid, "aes-256-cbc", "+MbQeThWmZq4t7w!z%C*F)J@NcRfUjXn", $options=0, $iv, $tag);
+$cipherhkidwithiv = $iv . $cipherhkid;
+
 
 $insert_sql = $conn->prepare("INSERT INTO Users (Email, Salt, Hash, NameEnglish, NameChinese, Gender, Address, DateOfBirth, PlaceOfBirth, Occupation, HKID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 $insert_sql->bind_param("sssssssssss", $email, $salt, $hash, $engName, $chiName, $gender, $address, $dateOfBirth_dt, $placeOfBirth, $occupation, $hkid);
