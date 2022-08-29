@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `DateOfBirth` datetime NOT NULL,
   `PlaceOfBirth` varchar(100) NOT NULL,
   `Occupation` varchar(100) NOT NULL,
-  `HKID` varchar(30) NOT NULL,
+  `HKID` varchar(512) NOT NULL,
   `Verified` tinyint(1) NOT NULL DEFAULT 0,
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `LastModifedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
-  UNIQUE (`Email`, `HKID`)
+  UNIQUE (`Email`)
   -- FOREIGN KEY (RoleId) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

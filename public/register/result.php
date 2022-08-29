@@ -122,7 +122,7 @@ $hash = hash("sha512", $salt . $password);
 $dateOfBirth_dt=date('Y-m-d H:i:s',strtotime($dateOfBirth)); 
 
 $iv = bin2hex(openssl_random_pseudo_bytes(16));
-$cipherhkid = openssl_encrypt($hkid, "aes-256-cbc", "+MbQeThWmZq4t7w!z%C*F)J@NcRfUjXn", $options=0, $iv, $tag);
+$cipherhkid = openssl_encrypt($hkid, $cipher, $key, $option, $iv);
 $cipherhkidwithiv = $iv . $cipherhkid;
 
 
