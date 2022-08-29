@@ -8,10 +8,22 @@ if ( $_SERVER['REQUEST_METHOD']=='GET' && realpath(__FILE__) == realpath( $_SERV
 session_start(); 
 if(!isset($_SESSION['user']))
 {
-    header("Location:../login"); 
+    header("Location:../login");
+    die();
 }
+
 $email = $_SESSION['user'];
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+    header("Location:../logout");
+    die();
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 ?>
+
 <html>
 <head>
 <title>Verify Email Result</title>

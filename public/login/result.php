@@ -105,6 +105,7 @@ if(strcmp($hash_db, $passwordHash) != 0) {
 }
 
 $_SESSION['user'] = $email;
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
 // check if user is verified
 if (!$verified_db) {

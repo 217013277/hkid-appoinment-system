@@ -1,15 +1,19 @@
 <?php
-//Prevent Direct URL Access to PHP Form Files
-// if ( $_SERVER['REQUEST_METHOD']=='GET' && realpath(__FILE__) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
-//     header( 'HTTP/1.0 403 Forbidden', TRUE, 403 );
-//     die ("<h2>Access Denied!</h2> This file is protected and not available to public.");
-//     }
-    
 session_start(); 
 if(!isset($_SESSION['user']))
 {
     header("Location:../login"); 
+    die();
 }
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+    header("Location:../logout");
+    die();
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 ?>
 <html>
 <head>

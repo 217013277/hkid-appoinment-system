@@ -9,7 +9,17 @@ session_start();
 if(!isset($_SESSION['user']))
 {
     header("Location:../login"); 
+    die();
 }
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+    header("Location:../logout");
+    die();
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 
 $captchaStatus = false;
 $status = '';
@@ -22,7 +32,6 @@ if(strcasecmp($_SESSION['captcha'], $_POST["captcha"]) != 0){
     die("<p style='color:#FFFFFF; font-size:20px'>
     <span style='background-color:#FF0000;'>Entered captcha code does not match! 
     Kindly try again.</span></p>");
-
 }
 
 $_SESSION['captcha'] = rand();
