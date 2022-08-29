@@ -39,17 +39,6 @@ if (!$captchaStatus)
 	die($status);
 }
 
-include "../../config.php";
-
-// Create connection
-$conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
-
-// Check connection
-if ($conn->connect_error) 
-{
-    die("Connection failed: ". $conn->connect_error);
-} 
-
 // Get user input from the form submitted before
 $email = $_POST["email"];
 $password = $_POST["password"];
@@ -111,6 +100,17 @@ if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid)){
 if(!$allDataCorrect){
     die("<h3> $errMsg </h3>");
 }
+
+include "../../config.php";
+
+// Create connection
+$conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
+
+// Check connection
+if ($conn->connect_error) 
+{
+    die("Connection failed: ". $conn->connect_error);
+} 
 
 // Search user table to see whether user name is exist
 $search_sql = $conn->prepare("SELECT * FROM Users WHERE Email=? OR HKID LIKE ?");
