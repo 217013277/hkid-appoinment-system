@@ -21,20 +21,14 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
 }
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 
-$captchaStatus = false;
-$status = '';
-
 // Validation: Checking entered captcha code with the generated captcha code
 if(strcasecmp($_SESSION['captcha'], $_POST["captcha"]) != 0){
     // Note: the captcha code is compared case insensitively.
     // if you want case sensitive match, check above with strcmp()
-    $captchaStatus = false;
-    die("<p style='color:#FFFFFF; font-size:20px'>
-    <span style='background-color:#FF0000;'>Entered captcha code does not match! 
-    Kindly try again.</span></p>");
+    die("<p>Entered captcha code does not match! Kindly try again.</p>");
 }
 
-$_SESSION['captcha'] = rand();
+$_POST = array(); // clear all post data
 
 $email = $_SESSION['user'];
 

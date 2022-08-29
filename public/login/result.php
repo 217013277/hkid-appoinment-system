@@ -24,6 +24,8 @@ if(isset($_SESSION['user']))
 $email = $_POST["email"]; 
 $password = $_POST["password"];
 
+$_POST = array(); // clear all post data
+
 if (!$email && !$password) {
     die("<h2>Please input email and password</h2>");
 }

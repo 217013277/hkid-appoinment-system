@@ -13,30 +13,13 @@ die ("<h2>Access Denied!</h2> This file is protected and not available to public
 <body>
 <?php
 session_start();
-$captchaStatus = false;
-$status = '';
 
 // Validation: Checking entered captcha code with the generated captcha code
 if(strcasecmp($_SESSION['captcha'], $_POST["captcha"]) != 0){
     // Note: the captcha code is compared case insensitively.
     // if you want case sensitive match, check above with strcmp()
-    $captchaStatus = false;
-    $status = "<p style='color:#FFFFFF; font-size:20px'>
-    <span style='background-color:#FF0000;'>Entered captcha code does not match! 
-    Kindly try again.</span></p>";
-
-}else{
-    $captchaStatus = true;
-    $status = "<p style='color:#FFFFFF; font-size:20px'>
-    <span style='background-color:#46ab4a;'>Your captcha code is match.</span>
-    </p>";	
-    }
-
-    $_SESSION['captcha'] = rand();
-
-if (!$captchaStatus)
-{
-	die($status);
+    die("<p>Entered captcha code does not match! 
+    Kindly try again.</p>");
 }
 
 // Get user input from the form submitted before
@@ -51,6 +34,8 @@ $address = $_POST["address"];
 $placeOfBirth = $_POST["placeOfBirth"];
 $occupation = $_POST["occupation"];
 $hkid = $_POST["hkid"];
+
+$_POST = array(); // clear all post data
 
 // Set a flag to assume all user input follow the format
 $allDataCorrect = true;

@@ -22,7 +22,7 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 <body>
 <form action="result.php" method="post">
 <h1>Verify your email</h1>
-OTP: <input name="otp" type="text" size="30" maxlength="16"><br><br>
+OTP: <input name="otp" type="text" size="30" maxlength="16" required><br><br>
 <input name="submit" type="submit" value="submit">
 
 <p>click here to receive a <a href="./email">verfy email</a></p>

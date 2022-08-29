@@ -33,7 +33,8 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 <body>
 <form action="result.php" method="post">
 <h1>appointment</h1>
-Date: <select name="date">
+Date: <select name="date" required>
+    <option value=""></option>
     <?php
     foreach($Data as $key => $value)
     {
@@ -41,7 +42,8 @@ Date: <select name="date">
     }
     ?>
 </select>
-Time: <select name="time">>
+Time: <select name="time" required>
+    <option value=""></option>
     <?php
     foreach($Time as $key => $value)
     {
@@ -49,7 +51,8 @@ Time: <select name="time">>
     }
     ?>
 </select><br><br>
-Location: <select name="location">
+Location: <select name="location"required>
+    <option value=""></option>
 	<option value="East Kowloon">East Kowloon</option>
 	<option value="Hong Kong Island">Hong Kong Island</option>
 	<option value="Sha Ti">Sha Tin</option>

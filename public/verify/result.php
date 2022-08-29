@@ -33,6 +33,8 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 // Get user input from the form submitted before
 $otp = $_POST["otp"];
 
+$_POST = array(); // clear all post data
+
 // Set a flag to assume all user input follow the format
 $allDataCorrect = true;
 

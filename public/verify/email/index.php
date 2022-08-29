@@ -24,12 +24,12 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stampÍ
 <h1>Enter Captcha</h1>
 <img src="../../../captcha/captcha.php?rand=<?php echo rand(); ?>" id='captcha_image'>
 </p>
-Captcha: <input type="text" name="captcha" />
+Captcha: <input type="text" name="captcha" required/>
 <p>
 <p>Can't read the image?
 <a href='javascript: refreshCaptcha();'>click here</a>
 to refresh</p>
-<input name="submit" type="submit" value="submit">
+<input name="submit" type="submit" value="submit" onclick="refreshCaptcha()">
 </form>
 </body>
 <footer>

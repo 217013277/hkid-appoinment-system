@@ -46,22 +46,10 @@ $location = $_POST["location"];
 $date = $_POST["date"];
 $time = $_POST["time"];
 
+$_POST = array(); // clear all post data
+
 $datetime = $date." ".$time;
 
-// // Write prepare statements to retrieve the columns salt and hash with the corresponding user  
-// $search_sql = $conn->prepare("SELECT `Id` FROM Users WHERE email=?");
-// $search_sql->bind_param("s", $email);
-// $search_sql->execute();
-// $search_sql->store_result();
-
-// // If login name can be found in table "userhash"
-// if($search_sql->num_rows < 1) {       
-//     die("<h2>User is not exist, authentication failed</h2>");
-// }
-
-// // Write a statement to generate a hash by using SHA512 algorithm and store it into variable $pwdhash (salt + password)
-// $search_sql->bind_result($userid_db);
-// $search_sql-> fetch();
 $search_sql = $conn->prepare("SELECT `Location`,`DateTime` FROM Appointments WHERE user=?");
 $search_sql->bind_param("s", $email);
 $search_sql->execute();
