@@ -12,8 +12,8 @@ if(isset($_SESSION['user']))
 <body>
 <form action="result.php" method="post">
 <h1>Login</h1>
-Email: <input name="email" type="text" size="30" maxlength="100"><br><br>
-Password: <input name="password" type="text" size="30" maxlength="100"><br><br>
+Email: <input name="email" type="email" size="30" maxlength="100"><br><br>
+Password: <input name="password" type="password" size="30" maxlength="100"><br><br>
 <input name="submit" type="submit" value="submit">
 </form>
 </body>

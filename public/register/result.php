@@ -53,6 +53,7 @@ if ($conn->connect_error)
 // Get user input from the form submitted before
 $email = $_POST["email"];
 $password = $_POST["password"];
+$confirm = $_POST["confirm"];
 $engName = $_POST["engName"];
 $chiName = $_POST["chiName"];
 $gender = $_POST["gender"];
@@ -66,51 +67,48 @@ $hkid = $_POST["hkid"];
 $allDataCorrect = true;
 
 // Check all data whether follow the format
-if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email))
-{
+if(!preg_match("/\w+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,6}/", $email)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Email is invalid<br><br>"; 
 }
 
-if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&-_]{8,}$/", $password))
-{
+if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&-_]{8,}$/", $password)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Password should be composed with at least 8 alphanumeric characters, 1 uppercase letter, 1 lowercase letter and 1 @$!%*#?&-_ symbol <br><br>"; 
 }
 
-if(!preg_match("/[A-Z][a-zA-Z]{2,}/", $engName))
-{
+if(strcmp($password, $confirm) != 0) {
+	$allDataCorrect = false;
+    $errMsg = $errMsg . "Confirm password is not match with your password <br><br>"; 
+}
+
+if(!preg_match("/[A-Z][a-zA-Z]{2,}/", $engName)) {
     $allDataCorrect = false;
     $errMsg = $errMsg . "Name should be composed with English characters start with capital letter<br><br>"; 
 }
 
-if(!preg_match("/\p{Han}{2,}+/u", $chiName))
-{
+if(!preg_match("/\p{Han}{2,}+/u", $chiName)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Name should be composed with at least 2 Chinese characters <br><br>"; 
 }
 
-if(!preg_match("/^(?:Male|Female)$/", $gender))
-{
+if(!preg_match("/^(?:Male|Female|Other)$/", $gender)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Name should be composed with at least 2 Chinese characters <br><br>"; 
 }
 
-if(!preg_match("/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/", $dateOfBirth))
-{
+if(!preg_match("/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/", $dateOfBirth)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Please input valid date of birth<br><br>"; 
 
 }
 
-if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid))
-{
+if(!preg_match("/^[A-Z]{1,2}[0-9]{6}\([0-9A]\)$/", $hkid)){
     $allDataCorrect = false;
     $errMsg = $errMsg . "Please input valid hkid e.g. A123456(7)<br><br>"; 
 }
   
-if(!$allDataCorrect)
-{
+if(!$allDataCorrect){
     die("<h3> $errMsg </h3>");
 }
 
@@ -121,8 +119,7 @@ $search_sql->execute();
 $search_sql->store_result();
 
 // If login name can be found in table "user", forbid user register process
-if($search_sql->num_rows > 0) 
-{
+if($search_sql->num_rows > 0) {
     die("<h2>The email or hkid are registered by others. Please use other user name</h2>");
 }
 
