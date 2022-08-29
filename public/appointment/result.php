@@ -55,10 +55,10 @@ $search_sql->bind_param("s", $email);
 $search_sql->execute();
 $search_sql->store_result();
 
-if ($search_sql > 0) {
+if ($search_sql->num_rows > 0) {
     $search_sql->bind_result($location_db,$datetime_db);
     $search_sql-> fetch();
-    echo "<p>you have already made an appointment, below is your appointment detail</p><p>$location_db - $datetime_db</p>";
+    echo "<p>you have already made an appointment below, below is your appointment detail</p><p>$location_db - $datetime_db</p>";
     echo "<a href='../logout'>logout</a>";
     die();
 }

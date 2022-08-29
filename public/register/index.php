@@ -35,7 +35,7 @@ Captcha: <input type="text" name="captcha" required/>
 <p>Can't read the image?
 <a href='javascript: refreshCaptcha();'>click here</a>
 to refresh</p>
-<input name="submit" type="submit" value="submit" onclick="refreshCaptcha()">
+<input name="submit" type="submit" value="submit">
 </form>
 <a href="../login">Go to login page</a>
 </body>

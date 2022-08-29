@@ -51,7 +51,7 @@ Time: <select name="time" required>
     }
     ?>
 </select><br><br>
-Location: <select name="location"required>
+Location: <select name="location" required>
     <option value=""></option>
 	<option value="East Kowloon">East Kowloon</option>
 	<option value="Hong Kong Island">Hong Kong Island</option>
@@ -63,7 +63,6 @@ Location: <select name="location"required>
     <option value="West Kowloon">West Kowloon</option>
     <option value="Yuen Long">Yuen Long</option>
 </select><br><br>
-
 <input name="submit" type="submit" value="submit">
 </form>
 <a href="../logout">logout</a>

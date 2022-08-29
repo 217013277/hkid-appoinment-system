@@ -39,8 +39,7 @@ $_POST = array(); // clear all post data
 $allDataCorrect = true;
 
 // Check all data whether follow the format
-if(!preg_match("/[0-9]{6}/", $otp))
-{
+if(!preg_match("/[0-9]{6}/", $otp)) {
     $allDataCorrect = false;
     $errMsg = $errMsg . "OTP format is invalid<br><br>"; 
 }
@@ -55,8 +54,7 @@ include "../../config.php";
 $conn = new mysqli($host, $dbusername, $dbpassword, $dbname);
 
 // Check connection
-if ($conn->connect_error) 
-{
+if ($conn->connect_error) {
     die("Connection failed: ". $conn->connect_error);
 } 
 
@@ -68,13 +66,12 @@ $search_sql->store_result();
 $search_sql->bind_result($CreatedAt_db, $verified_db);
 $search_sql->fetch();
 
-if($search_sql->num_rows < 1) 
-{
+if($search_sql->num_rows < 1) {
     die("<h2>Your OTP is not correct.</h2>");
 }
 
 if($verified_db){
-    die("<h2>Your OTP is used.</h2>");
+    die("<h2>OTP is used.</h2>Click <a href='./email'>here</a> to receive an otp email");
 }
 
 date_default_timezone_set('Asia/Hong_Kong');
@@ -87,7 +84,7 @@ if($CreatedAt_db < $expiryTime) {
 echo "<p>$email is now verified.</p>";
 
 $update_user_sql = $conn->prepare("UPDATE Users SET `Verified` = 1 WHERE `Email` = '$email'");
-$update_user_sql = $conn->prepare("UPDATE OTP SET `Used` = 1 WHERE `Email` = '$email'");
+$update_user_sql = $conn->prepare("UPDATE OTP SET `Used` = 1 WHERE `Email` = '$email' AND otp = '$otp'");
 $update_user_sql->execute();
 
 // Close connection
