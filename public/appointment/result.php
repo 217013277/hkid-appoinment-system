@@ -58,8 +58,11 @@ $search_sql->store_result();
 if ($search_sql->num_rows > 0) {
     $search_sql->bind_result($location_db,$datetime_db);
     $search_sql-> fetch();
-    echo "<p>you have already made an appointment below, below is your appointment detail</p><p>$location_db - $datetime_db</p>";
-    echo "<a href='../logout'>logout</a>";
+    $location_db = htmlspecialchars($location_db);
+    $datetime_db = htmlspecialchars($datetime_db);
+    echo "<p>Fail to made appointment, you already have an appointment, below is your appointment detail</p><p>$location_db - $datetime_db</p>";
+    echo "<a href='../userdetail'>Your user detail</a>
+    <a href='../logout'>logout</a>";
     die();
 }
 
@@ -74,8 +77,8 @@ echo "<p>$location - $date $time</p>";
 mysqli_close($conn);
 
 ?>
-
-<a href="../logout">logout</a>
+<a href='../userdetail'>Your user detail</a>
+<a href="../logout">logoutn</a>
 </body>
 </html>
 

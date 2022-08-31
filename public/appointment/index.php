@@ -65,6 +65,7 @@ Location: <select name="location" required>
 </select><br><br>
 <input name="submit" type="submit" value="submit">
 </form>
+<a href='../userdetail'>Your user detail</a>
 <a href="../logout">logout</a>
 </body>
 </html>
