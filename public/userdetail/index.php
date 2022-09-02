@@ -36,6 +36,14 @@ $user_sql->store_result();
 $user_sql->bind_result($NameEnglish,$NameChinese, $Gender, $Address, $DateOfBirth, $PlaceOfBirth, $Occupation, $HKID);
 $user_sql-> fetch();
 
+$NameEnglish = htmlspecialchars($NameEnglish);
+$NameChinese = htmlspecialchars($NameChinese);
+$Gender = htmlspecialchars($Gender);
+$Address = htmlspecialchars($Address);
+$DateOfBirth = htmlspecialchars($DateOfBirth);
+$PlaceOfBirth = htmlspecialchars($PlaceOfBirth);
+$Occupation = htmlspecialchars($Occupation);
+
 $iv = substr($HKID, 0, 32);
 $HKID = substr($HKID, 32);
 $HKID = openssl_decrypt($HKID, $cipher, $key, $option, $iv);
