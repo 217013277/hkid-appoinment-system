@@ -81,5 +81,6 @@ Date and Time: $datetime_db</p>";
 
 </body>
 <footer>
+<a href="../logout">logout</a>
 </footer>
 </html>
