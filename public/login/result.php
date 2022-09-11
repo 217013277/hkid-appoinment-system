@@ -111,8 +111,8 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
 // check if user is verified
 if (!$verified_db) {
-    die("<p>Please verified your email first</p>
-    <a href='../verify'>Go to verify page</a>
+    die("<p>Please verified your email first 
+    <a href='../verify'>Go to verify page</a></p>
     <a href='../userdetail'>see your user detail</a>");
 }
 
